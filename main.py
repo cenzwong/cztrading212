@@ -11,7 +11,7 @@ from cztrading212 import Trading212
 
 def main():
     api_key = TRADING212_API
-    env = "live"  # or "live"
+    env = "demo"  # or "live" or "demo"
     
     # Create the Trading212 instance
     t212 = Trading212(api_key=api_key, environment=env)
@@ -37,9 +37,10 @@ def main():
     # print("Pies:", pies)
     # print("Pies:", pies)
     # print("Pies:", t212.pies.update_pie(3708188,payload))
-    print(t212.personal_portfolio.fetch_a_specific_position("AAPL_US_EQ"))
+    print(t212.account_data.fetch_account_cash())
+    # print(t212.personal_portfolio.fetch_a_specific_position("AAPL_US_EQ"))
     # print(t212.personal_portfolio.fetch_all_open_positions())
-    print(t212.personal_portfolio.search_for_a_specific_position_by_ticker("AAPL_US_EQ"))
+    # print(t212.personal_portfolio.search_for_a_specific_position_by_ticker("AAPL_US_EQ"))
     # print("Orders:", orders)
 
 if __name__ == "__main__":
