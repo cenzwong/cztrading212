@@ -1,48 +1,32 @@
-# trading212/pies.py
+from typing import Any, Dict, TYPE_CHECKING, Optional
 
-import requests
+if TYPE_CHECKING:
+    from .trading212_client import Trading212Client
 
 class Pies:
-    def __init__(self, trading_instance):
-        self.api_key = trading_instance.api_key
-        self.environment = trading_instance.environment
-        self.base_url = trading_instance.base_url
+    def __init__(self, client: 'Trading212Client'):
+        self._client = client
+
+    def fetch_all_pies(self) -> Dict[str, Any]:
+        """
+        GET /api/v0/equity/pies
+        """
+        return self._client._request("GET", "/api/v0/equity/pies")
+
+    def fetch_a_pie(self, pie_id: str) -> Dict[str, Any]:
+        """
+        GET /api/v0/equity/pies/{id}
+        """
+        return self._client._request("GET", f"/api/v0/equity/pies/{pie_id}")
+
+    def update_pie(self, pie_id: str, payload: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        POST /api/v0/equity/pies/{id}
+        """
+        return self._client._request(
+            "POST",
+            f"/api/v0/equity/pies/{pie_id}",
+            json_body=payload or {},
+            headers={"Content-Type": "application/json"},
+        )
     
-    def fetch_all_pies(self):
-        """
-        Fetch all pies.
-        API Endpoint (assumed): GET /api/v0/equity/pies
-        """
-        subdirectory = f"/api/v0/equity/pies"
-
-        url = f"{self.base_url}{subdirectory}"
-        headers = {"Authorization": f"{self.api_key}"}
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()  # Raises an HTTPError if the HTTP request returned an unsuccessful status code
-        return response.json()
-
-    def fetch_a_pie(self, pie_id):
-        """
-        Fetch details for a specific pie.
-        API Endpoint (assumed): GET /api/v0/equity/pies/{id}
-        """
-        subdirectory = f"/api/v0/equity/pies/{pie_id}"
-
-        url = f"{self.base_url}{subdirectory}"
-        headers = {"Authorization": f"{self.api_key}"}
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        return response.json()
-    
-    def update_pie(self, pie_id, payload = None):
-        subdirectory = f"/api/v0/equity/pies/{pie_id}"
-
-        url = f"{self.base_url}{subdirectory}"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"{self.api_key}"
-        }
-        response = requests.post(url, json=payload, headers=headers)
-        response.raise_for_status()
-        return response.json()
-

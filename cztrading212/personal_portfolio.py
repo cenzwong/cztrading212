@@ -1,51 +1,32 @@
-import requests
+from typing import Any, Dict, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .trading212_client import Trading212Client
 
 class PersonalPortfolio:
-    def __init__(self, trading_instance):
-        self.api_key = trading_instance.api_key
-        self.environment = trading_instance.environment
-        self.base_url = trading_instance.base_url
-    
-    def fetch_all_open_positions(self):
-        """
-        Fetch all pies.
-        API Endpoint (assumed): GET /api/v0/equity/portfolio
-        """
-        subdirectory = f"/api/v0/equity/portfolio"
+    def __init__(self, client: 'Trading212Client'):
+        self._client = client
 
-        url = f"{self.base_url}{subdirectory}"
-        headers = {"Authorization": f"{self.api_key}"}
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()  # Raises an HTTPError if the HTTP request returned an unsuccessful status code
-        return response.json()
+    def positions(self) -> Dict[str, Any]:
+        """
+        GET /api/v0/equity/portfolio
+        """
+        return self._client._request("GET", "/api/v0/equity/portfolio")
 
-    def fetch_a_specific_position(self, ticker):
+    def position(self, ticker: str) -> Dict[str, Any]:
         """
-        Fetch all pies.
-        API Endpoint (assumed): GET /api/v0/equity/portfolio/{ticker}
+        GET /api/v0/equity/portfolio/{ticker}
         """
-        subdirectory = f"/api/v0/equity/portfolio/{ticker}"
+        return self._client._request("GET", f"/api/v0/equity/portfolio/{ticker}")
 
-        url = f"{self.base_url}{subdirectory}"
-        headers = {"Authorization": f"{self.api_key}"}
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()  # Raises an HTTPError if the HTTP request returned an unsuccessful status code
-        return response.json()
-    
-    def search_for_a_specific_position_by_ticker(self, ticker):
+    def find_by_ticker(self, ticker: str) -> Dict[str, Any]:
         """
-        /api/v0/equity/portfolio/ticker
+        POST /api/v0/equity/portfolio/ticker
+        body: {"ticker": "..."}
         """
-        payload = {
-            "ticker": ticker
-        }
-        subdirectory = f"/api/v0/equity/portfolio/ticker"
-
-        url = f"{self.base_url}{subdirectory}"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"{self.api_key}"
-        }
-        response = requests.post(url, json=payload, headers=headers)
-        response.raise_for_status()  # Raises an HTTPError if the HTTP request returned an unsuccessful status code
-        return response.json()
+        return self._client._request(
+            "POST",
+            "/api/v0/equity/portfolio/ticker",
+            json_body={"ticker": ticker},
+            headers={"Content-Type": "application/json"},
+        )
