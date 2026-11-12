@@ -1,0 +1,8 @@
+{
+  "normalized_sha256": "cd79dac570bad7f3e26e9acc5fae456dea68393040edb33ee6c1eafc18266c53",
+  "operations": 22,
+  "overrides_sha256": "3b83976b610ff67da228948eac259215603a059234e3dcf0f5a56ab84734983b",
+  "policies_sha256": "f78be376177d580d9141f0a057e0b8171077b742eb988b70b9691fcf2e3fff92",
+  "schemas": 38,
+  "upstream_sha256": "a272f70a713fa9f2f906e9b4be12136c9d5d63d7f9f48562e939aa35c4fc041d"
+}

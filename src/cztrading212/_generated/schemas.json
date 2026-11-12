@@ -1,0 +1,1062 @@
+{
+  "AccountBucketDetailedResponse": {
+    "properties": {
+      "creationDate": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "dividendCashAction": {
+        "enum": [
+          "REINVEST",
+          "TO_ACCOUNT_CASH"
+        ],
+        "type": "string"
+      },
+      "endDate": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "goal": {
+        "type": "number"
+      },
+      "icon": {
+        "type": "string"
+      },
+      "id": {
+        "format": "int64",
+        "type": "integer"
+      },
+      "initialInvestment": {
+        "type": "number"
+      },
+      "instrumentShares": {
+        "additionalProperties": {
+          "type": "number"
+        },
+        "type": "object"
+      },
+      "name": {
+        "type": "string"
+      },
+      "publicUrl": {
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "AccountBucketInstrumentResult": {
+    "properties": {
+      "currentShare": {
+        "type": "number"
+      },
+      "expectedShare": {
+        "type": "number"
+      },
+      "issues": {
+        "items": {
+          "$ref": "#/components/schemas/InstrumentIssue"
+        },
+        "type": "array",
+        "uniqueItems": true
+      },
+      "ownedQuantity": {
+        "type": "number"
+      },
+      "result": {
+        "$ref": "#/components/schemas/InvestmentResult"
+      },
+      "ticker": {
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "AccountBucketInstrumentsDetailedResponse": {
+    "properties": {
+      "instruments": {
+        "items": {
+          "$ref": "#/components/schemas/AccountBucketInstrumentResult"
+        },
+        "type": "array"
+      },
+      "settings": {
+        "$ref": "#/components/schemas/AccountBucketDetailedResponse"
+      }
+    },
+    "type": "object"
+  },
+  "AccountBucketResultResponse": {
+    "properties": {
+      "cash": {
+        "description": "Amount of money put into the pie in account currency",
+        "type": "number"
+      },
+      "dividendDetails": {
+        "$ref": "#/components/schemas/DividendDetails"
+      },
+      "id": {
+        "format": "int64",
+        "type": "integer"
+      },
+      "progress": {
+        "description": "Progress of the pie based on the set goal",
+        "example": 0.5,
+        "type": "number"
+      },
+      "result": {
+        "$ref": "#/components/schemas/InvestmentResult"
+      },
+      "status": {
+        "description": "Status of the pie based on the set goal",
+        "enum": [
+          "AHEAD",
+          "ON_TRACK",
+          "BEHIND"
+        ],
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "AccountSummary": {
+    "properties": {
+      "cash": {
+        "$ref": "#/components/schemas/Cash"
+      },
+      "currency": {
+        "description": "Primary account currency in ISO 4217 format.",
+        "type": "string"
+      },
+      "id": {
+        "description": "Primary trading account number. This is the same account ID you would see in the Trading 212 web or mobile application.",
+        "format": "int64",
+        "type": "integer"
+      },
+      "investments": {
+        "$ref": "#/components/schemas/Investments"
+      },
+      "totalValue": {
+        "description": "Investments value in your account's primary currency.",
+        "type": "number"
+      }
+    },
+    "type": "object"
+  },
+  "Cash": {
+    "properties": {
+      "availableToTrade": {
+        "description": "Funds available for investing.",
+        "type": "number"
+      },
+      "inPies": {
+        "description": "It’s the sum of the cash inside of all pies that is not yet invested.",
+        "type": "number"
+      },
+      "reservedForOrders": {
+        "description": "The amount of cash reserved for pending orders. This cash is not available for placing new trades.",
+        "type": "number"
+      }
+    },
+    "type": "object"
+  },
+  "DividendDetails": {
+    "properties": {
+      "gained": {
+        "type": "number"
+      },
+      "inCash": {
+        "type": "number"
+      },
+      "reinvested": {
+        "type": "number"
+      }
+    },
+    "type": "object"
+  },
+  "DuplicateBucketRequest": {
+    "properties": {
+      "icon": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "EnqueuedReportResponse": {
+    "properties": {
+      "reportId": {
+        "format": "int64",
+        "type": "integer"
+      }
+    },
+    "type": "object"
+  },
+  "Exchange": {
+    "properties": {
+      "id": {
+        "format": "int64",
+        "type": "integer"
+      },
+      "name": {
+        "type": "string"
+      },
+      "workingSchedules": {
+        "items": {
+          "$ref": "#/components/schemas/WorkingSchedule"
+        },
+        "type": "array"
+      }
+    },
+    "type": "object"
+  },
+  "Fill": {
+    "properties": {
+      "filledAt": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "id": {
+        "format": "int64",
+        "type": "integer"
+      },
+      "price": {
+        "type": "number"
+      },
+      "quantity": {
+        "type": "number"
+      },
+      "tradingMethod": {
+        "enum": [
+          "TOTV",
+          "OTC"
+        ],
+        "type": "string"
+      },
+      "type": {
+        "enum": [
+          "TRADE",
+          "STOCK_SPLIT",
+          "STOCK_DISTRIBUTION",
+          "FOP",
+          "FOP_CORRECTION",
+          "CUSTOM_STOCK_DISTRIBUTION",
+          "EQUITY_RIGHTS",
+          "SCRIP_STOCK_DIVIDENDS",
+          "STOCK_DIVIDENDS",
+          "STOCK_ACQUISITION",
+          "CASH_AND_STOCK_ACQUISITION",
+          "SPIN_OFF"
+        ],
+        "type": "string"
+      },
+      "walletImpact": {
+        "$ref": "#/components/schemas/FillWalletImpact"
+      }
+    },
+    "type": "object"
+  },
+  "FillWalletImpact": {
+    "properties": {
+      "currency": {
+        "type": "string"
+      },
+      "fxRate": {
+        "type": "number"
+      },
+      "netValue": {
+        "type": "number"
+      },
+      "realisedProfitLoss": {
+        "type": "number"
+      },
+      "taxes": {
+        "items": {
+          "$ref": "#/components/schemas/Tax"
+        },
+        "type": "array"
+      }
+    },
+    "type": "object"
+  },
+  "HistoricalOrder": {
+    "properties": {
+      "fill": {
+        "$ref": "#/components/schemas/Fill"
+      },
+      "order": {
+        "$ref": "#/components/schemas/Order"
+      }
+    },
+    "type": "object"
+  },
+  "HistoryDividendItem": {
+    "properties": {
+      "amount": {
+        "description": "In account's primary currency.",
+        "type": "number"
+      },
+      "amountInEuro": {
+        "type": "number"
+      },
+      "currency": {
+        "description": "The account's primary currency.",
+        "type": "string"
+      },
+      "grossAmountPerShare": {
+        "description": "In instrument currency",
+        "type": "number"
+      },
+      "instrument": {
+        "$ref": "#/components/schemas/Instrument"
+      },
+      "paidOn": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "quantity": {
+        "type": "number"
+      },
+      "reference": {
+        "type": "string"
+      },
+      "ticker": {
+        "type": "string"
+      },
+      "tickerCurrency": {
+        "type": "string"
+      },
+      "type": {
+        "enum": [
+          "ORDINARY",
+          "BONUS",
+          "PROPERTY_INCOME",
+          "RETURN_OF_CAPITAL_NON_US",
+          "DEMERGER",
+          "INTEREST",
+          "CAPITAL_GAINS_DISTRIBUTION_NON_US",
+          "INTERIM_LIQUIDATION",
+          "ORDINARY_MANUFACTURED_PAYMENT",
+          "BONUS_MANUFACTURED_PAYMENT",
+          "PROPERTY_INCOME_MANUFACTURED_PAYMENT",
+          "RETURN_OF_CAPITAL_NON_US_MANUFACTURED_PAYMENT",
+          "DEMERGER_MANUFACTURED_PAYMENT",
+          "INTEREST_MANUFACTURED_PAYMENT",
+          "CAPITAL_GAINS_DISTRIBUTION_NON_US_MANUFACTURED_PAYMENT",
+          "INTERIM_LIQUIDATION_MANUFACTURED_PAYMENT",
+          "INTEREST_PAID_BY_US_OBLIGORS",
+          "INTEREST_PAID_BY_FOREIGN_CORPORATIONS",
+          "DIVIDENDS_PAID_BY_US_CORPORATIONS",
+          "DIVIDENDS_PAID_BY_FOREIGN_CORPORATIONS",
+          "CAPITAL_GAINS",
+          "REAL_PROPERTY_INCOME_AND_NATURAL_RESOURCES_ROYALTIES",
+          "OTHER_INCOME",
+          "QUALIFIED_INVESTMENT_ENTITY",
+          "TRUST_DISTRIBUTION",
+          "PUBLICLY_TRADED_PARTNERSHIP_DISTRIBUTION",
+          "CAPITAL_GAINS_DISTRIBUTION",
+          "RETURN_OF_CAPITAL",
+          "OTHER_DIVIDEND_EQUIVALENT",
+          "TAX_EVENT_1446F_FOR_PUBLICLY_TRADED_SECURITIES",
+          "PTP_UNCHARACTERISED_INCOME",
+          "MULTIPLE_1042S_TAX_COMPONENTS",
+          "DIVIDEND",
+          "SHORT_TERM_CAPITAL_GAINS",
+          "LONG_TERM_CAPITAL_GAINS",
+          "PROPERTY_INCOME_DISTRIBUTION",
+          "TAX_EXEMPTED",
+          "INTEREST_PAID_BY_US_OBLIGORS_MANUFACTURED_PAYMENT",
+          "INTEREST_PAID_BY_FOREIGN_CORPORATIONS_MANUFACTURED_PAYMENT",
+          "DIVIDENDS_PAID_BY_US_CORPORATIONS_MANUFACTURED_PAYMENT",
+          "DIVIDENDS_PAID_BY_FOREIGN_CORPORATIONS_MANUFACTURED_PAYMENT",
+          "CAPITAL_GAINS_MANUFACTURED_PAYMENT",
+          "REAL_PROPERTY_INCOME_AND_NATURAL_RESOURCES_ROYALTIES_MANUFACTURED_PAYMENT",
+          "OTHER_INCOME_MANUFACTURED_PAYMENT",
+          "QUALIFIED_INVESTMENT_ENTITY_MANUFACTURED_PAYMENT",
+          "TRUST_DISTRIBUTION_MANUFACTURED_PAYMENT",
+          "PUBLICLY_TRADED_PARTNERSHIP_DISTRIBUTION_MANUFACTURED_PAYMENT",
+          "CAPITAL_GAINS_DISTRIBUTION_MANUFACTURED_PAYMENT",
+          "RETURN_OF_CAPITAL_MANUFACTURED_PAYMENT",
+          "OTHER_DIVIDEND_EQUIVALENT_MANUFACTURED_PAYMENT",
+          "TAX_EVENT_1446F_FOR_PUBLICLY_TRADED_SECURITIES_MANUFACTURED_PAYMENT",
+          "PTP_UNCHARACTERISED_INCOME_MANUFACTURED_PAYMENT",
+          "MULTIPLE_1042S_TAX_COMPONENTS_MANUFACTURED_PAYMENT",
+          "DIVIDEND_MANUFACTURED_PAYMENT",
+          "SHORT_TERM_CAPITAL_GAINS_MANUFACTURED_PAYMENT",
+          "LONG_TERM_CAPITAL_GAINS_MANUFACTURED_PAYMENT",
+          "PROPERTY_INCOME_DISTRIBUTION_MANUFACTURED_PAYMENT",
+          "TAX_EXEMPTED_MANUFACTURED_PAYMENT"
+        ],
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "HistoryTransactionItem": {
+    "properties": {
+      "amount": {
+        "description": "Amount in the currency of the transaction",
+        "type": "number"
+      },
+      "currency": {
+        "description": "Currency of the transaction",
+        "type": "string"
+      },
+      "dateTime": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "reference": {
+        "description": "ID",
+        "type": "string"
+      },
+      "type": {
+        "enum": [
+          "WITHDRAW",
+          "DEPOSIT",
+          "FEE",
+          "TRANSFER",
+          "INTEREST_ON_FREE_CASH",
+          "LENDING_INTEREST"
+        ],
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "Instrument": {
+    "description": "Instrument information as given by /instruments endpoint.",
+    "properties": {
+      "currency": {
+        "description": "Instrument currency in ISO 4217 format.",
+        "type": "string"
+      },
+      "isin": {
+        "description": "ISIN of the instrument.",
+        "type": "string"
+      },
+      "name": {
+        "description": "Name of the instrument.",
+        "type": "string"
+      },
+      "ticker": {
+        "description": "Unique instrument identifier.",
+        "example": "AAPL_US_EQ",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "InstrumentIssue": {
+    "properties": {
+      "name": {
+        "enum": [
+          "DELISTED",
+          "SUSPENDED",
+          "NO_LONGER_TRADABLE",
+          "MAX_POSITION_SIZE_REACHED",
+          "APPROACHING_MAX_POSITION_SIZE",
+          "COMPLEX_INSTRUMENT_APP_TEST_REQUIRED",
+          "PRICE_TOO_LOW",
+          "IPO_INSTRUMENT_NOT_AVAILABLE",
+          "ETN_RECONFIRMATION_REQUIRED",
+          "ETN_FINAL_RISK_CONFIRMATION_REQUIRED"
+        ],
+        "type": "string"
+      },
+      "severity": {
+        "enum": [
+          "IRREVERSIBLE",
+          "REVERSIBLE",
+          "INFORMATIVE"
+        ],
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "InvestmentResult": {
+    "properties": {
+      "priceAvgInvestedValue": {
+        "type": "number"
+      },
+      "priceAvgResult": {
+        "type": "number"
+      },
+      "priceAvgResultCoef": {
+        "type": "number"
+      },
+      "priceAvgValue": {
+        "type": "number"
+      }
+    },
+    "type": "object"
+  },
+  "Investments": {
+    "properties": {
+      "currentValue": {
+        "description": "Current value of all the investments.",
+        "type": "number"
+      },
+      "realizedProfitLoss": {
+        "description": "The all-time realised profit loss from all of the trades executed.",
+        "type": "number"
+      },
+      "totalCost": {
+        "description": "The cost basis of your current investments. The total amount of funds you've invested in the shares you currently own.",
+        "type": "number"
+      },
+      "unrealizedProfitLoss": {
+        "description": "The potential profit/loss of your current investments, showing how much you could gain or lose if you were to sell them now.",
+        "type": "number"
+      }
+    },
+    "type": "object"
+  },
+  "LimitRequest": {
+    "properties": {
+      "limitPrice": {
+        "example": 100.23,
+        "type": "number"
+      },
+      "quantity": {
+        "example": 0.1,
+        "type": "number"
+      },
+      "ticker": {
+        "example": "AAPL_US_EQ",
+        "type": "string"
+      },
+      "timeValidity": {
+        "$ref": "#/components/schemas/TimeValidity",
+        "description": "Expiration",
+        "example": "DAY"
+      }
+    },
+    "type": "object"
+  },
+  "MarketRequest": {
+    "properties": {
+      "extendedHours": {
+        "default": false,
+        "example": true,
+        "type": "boolean"
+      },
+      "quantity": {
+        "example": 0.1,
+        "type": "number"
+      },
+      "ticker": {
+        "example": "AAPL_US_EQ",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "Order": {
+    "properties": {
+      "createdAt": {
+        "description": "The ISO 8601 formatted date of when the order was created.",
+        "format": "date-time",
+        "type": "string"
+      },
+      "currency": {
+        "description": "The currency used for the order in ISO 4217 format.",
+        "type": "string"
+      },
+      "extendedHours": {
+        "description": "If true, the order is eligible for execution outside regular trading hours.",
+        "type": "boolean"
+      },
+      "filledQuantity": {
+        "description": "The number of shares that have been successfully executed. Applicable to quantity orders.",
+        "type": "number"
+      },
+      "filledValue": {
+        "description": "The total monetary value of the executed portion of the order. Applicable to orders placed by value.Note: Placing orders by value is not currently supported via the API but can be done through other Trading 212 platforms.",
+        "type": "number"
+      },
+      "id": {
+        "description": "A unique, system-generated identifier for the order.",
+        "format": "int64",
+        "type": "integer"
+      },
+      "initiatedFrom": {
+        "description": "How the order was initiated.",
+        "enum": [
+          "API",
+          "IOS",
+          "ANDROID",
+          "WEB",
+          "SYSTEM",
+          "AUTOINVEST",
+          "INSTRUMENT_AUTOINVEST"
+        ],
+        "type": "string"
+      },
+      "instrument": {
+        "$ref": "#/components/schemas/Instrument"
+      },
+      "limitPrice": {
+        "description": "Applicable to LIMIT and STOP_LIMIT orders.",
+        "type": "number"
+      },
+      "quantity": {
+        "description": "The total number of shares requested. Applicable to quantity orders.",
+        "type": "number"
+      },
+      "side": {
+        "description": "Indicates whether the order is BUY or SELL.",
+        "enum": [
+          "BUY",
+          "SELL"
+        ],
+        "type": "string"
+      },
+      "status": {
+        "description": "The current state of the order in its lifecycle.",
+        "enum": [
+          "LOCAL",
+          "UNCONFIRMED",
+          "CONFIRMED",
+          "NEW",
+          "CANCELLING",
+          "CANCELLED",
+          "PARTIALLY_FILLED",
+          "FILLED",
+          "REJECTED",
+          "REPLACING",
+          "REPLACED"
+        ],
+        "type": "string"
+      },
+      "stopPrice": {
+        "description": "Applicable to STOP and STOP_LIMIT orders.",
+        "type": "number"
+      },
+      "strategy": {
+        "description": "The strategy used to place the order, either by QUANTITY or VALUE. The API currently only supports placing orders by QUANTITY.",
+        "enum": [
+          "QUANTITY",
+          "VALUE"
+        ],
+        "type": "string"
+      },
+      "ticker": {
+        "description": "Unique instrument identifier. Get from the /instruments endpoint",
+        "example": "AAPL_US_EQ",
+        "type": "string"
+      },
+      "timeInForce": {
+        "$ref": "#/components/schemas/TimeValidity"
+      },
+      "type": {
+        "enum": [
+          "LIMIT",
+          "STOP",
+          "MARKET",
+          "STOP_LIMIT"
+        ],
+        "type": "string"
+      },
+      "value": {
+        "description": "The total monetary value of the order. Applicable to value orders.",
+        "type": "number"
+      }
+    },
+    "type": "object"
+  },
+  "PaginatedResponseHistoricalOrder": {
+    "properties": {
+      "items": {
+        "items": {
+          "$ref": "#/components/schemas/HistoricalOrder"
+        },
+        "type": "array"
+      },
+      "nextPagePath": {
+        "nullable": true,
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "PaginatedResponseHistoryDividendItem": {
+    "properties": {
+      "items": {
+        "items": {
+          "$ref": "#/components/schemas/HistoryDividendItem"
+        },
+        "type": "array"
+      },
+      "nextPagePath": {
+        "nullable": true,
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "PaginatedResponseHistoryTransactionItem": {
+    "properties": {
+      "items": {
+        "items": {
+          "$ref": "#/components/schemas/HistoryTransactionItem"
+        },
+        "type": "array"
+      },
+      "nextPagePath": {
+        "nullable": true,
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "PieRequest": {
+    "properties": {
+      "dividendCashAction": {
+        "enum": [
+          "REINVEST",
+          "TO_ACCOUNT_CASH"
+        ],
+        "type": "string"
+      },
+      "endDate": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "goal": {
+        "description": "Total desired value of the pie in account currency",
+        "type": "number"
+      },
+      "icon": {
+        "type": "string"
+      },
+      "instrumentShares": {
+        "additionalProperties": {
+          "type": "number"
+        },
+        "example": {
+          "AAPL_US_EQ": 0.5,
+          "MSFT_US_EQ": 0.5
+        },
+        "type": "object"
+      },
+      "name": {
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "Position": {
+    "properties": {
+      "averagePricePaid": {
+        "description": "Average price paid, in instrument currency, per share.",
+        "type": "number"
+      },
+      "createdAt": {
+        "description": "The ISO 8601 formatted date of when the position was opened.",
+        "format": "date-time",
+        "type": "string"
+      },
+      "currentPrice": {
+        "description": "Current price, in instrument currency, of a single share.",
+        "type": "number"
+      },
+      "instrument": {
+        "$ref": "#/components/schemas/Instrument"
+      },
+      "quantity": {
+        "description": "Total quantity of shares owned.",
+        "type": "number"
+      },
+      "quantityAvailableForTrading": {
+        "description": "Quantity of shares available for trading.",
+        "type": "number"
+      },
+      "quantityInPies": {
+        "description": "Quantity of shares currently used in pie.",
+        "type": "number"
+      },
+      "walletImpact": {
+        "$ref": "#/components/schemas/PositionWalletImpact",
+        "description": "Collects the financial impact of the position on the user's wallet."
+      }
+    },
+    "type": "object"
+  },
+  "PositionWalletImpact": {
+    "properties": {
+      "currency": {
+        "description": "The currency code used to represent all the wallet impact information.",
+        "type": "string"
+      },
+      "currentValue": {
+        "description": "The current market value of the position.",
+        "type": "number"
+      },
+      "fxImpact": {
+        "description": "The positive or negative impact on the position's value due to currency rate changes. Only applies to positions with instrument currency that differs from the accounts.",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "totalCost": {
+        "description": "The total cost paid for the position.",
+        "type": "number"
+      },
+      "unrealizedProfitLoss": {
+        "description": "The unrealized profit & loss for the position. Calculated as currentValue - totalCost.",
+        "type": "number"
+      }
+    },
+    "type": "object"
+  },
+  "PublicReportRequest": {
+    "properties": {
+      "dataIncluded": {
+        "$ref": "#/components/schemas/ReportDataIncluded"
+      },
+      "timeFrom": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "timeTo": {
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "ReportDataIncluded": {
+    "properties": {
+      "includeDividends": {
+        "type": "boolean"
+      },
+      "includeInterest": {
+        "type": "boolean"
+      },
+      "includeOrders": {
+        "type": "boolean"
+      },
+      "includeTransactions": {
+        "type": "boolean"
+      }
+    },
+    "type": "object"
+  },
+  "ReportResponse": {
+    "properties": {
+      "dataIncluded": {
+        "$ref": "#/components/schemas/ReportDataIncluded"
+      },
+      "downloadLink": {
+        "type": "string"
+      },
+      "reportId": {
+        "format": "int64",
+        "type": "integer"
+      },
+      "status": {
+        "enum": [
+          "Queued",
+          "Processing",
+          "Running",
+          "Canceled",
+          "Failed",
+          "Finished"
+        ],
+        "type": "string"
+      },
+      "timeFrom": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "timeTo": {
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "StopLimitRequest": {
+    "properties": {
+      "limitPrice": {
+        "example": 100.23,
+        "type": "number"
+      },
+      "quantity": {
+        "example": 0.1,
+        "type": "number"
+      },
+      "stopPrice": {
+        "example": 100.23,
+        "type": "number"
+      },
+      "ticker": {
+        "example": "AAPL_US_EQ",
+        "type": "string"
+      },
+      "timeValidity": {
+        "$ref": "#/components/schemas/TimeValidity",
+        "description": "Expiration",
+        "example": "DAY"
+      }
+    },
+    "type": "object"
+  },
+  "StopRequest": {
+    "properties": {
+      "quantity": {
+        "example": 0.1,
+        "type": "number"
+      },
+      "stopPrice": {
+        "example": 100.23,
+        "type": "number"
+      },
+      "ticker": {
+        "example": "AAPL_US_EQ",
+        "type": "string"
+      },
+      "timeValidity": {
+        "$ref": "#/components/schemas/TimeValidity",
+        "description": "Expiration",
+        "example": "DAY"
+      }
+    },
+    "type": "object"
+  },
+  "Tax": {
+    "properties": {
+      "chargedAt": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "currency": {
+        "type": "string"
+      },
+      "name": {
+        "enum": [
+          "COMMISSION_TURNOVER",
+          "CURRENCY_CONVERSION_FEE",
+          "FINRA_FEE",
+          "FRENCH_TRANSACTION_TAX",
+          "PTM_LEVY",
+          "STAMP_DUTY",
+          "STAMP_DUTY_RESERVE_TAX",
+          "TRANSACTION_FEE"
+        ],
+        "type": "string"
+      },
+      "quantity": {
+        "type": "number"
+      }
+    },
+    "type": "object"
+  },
+  "TimeEvent": {
+    "properties": {
+      "date": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "type": {
+        "enum": [
+          "OPEN",
+          "CLOSE",
+          "BREAK_START",
+          "BREAK_END",
+          "PRE_MARKET_OPEN",
+          "AFTER_HOURS_OPEN",
+          "AFTER_HOURS_CLOSE",
+          "OVERNIGHT_OPEN"
+        ],
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "TimeValidity": {
+    "description": "Specifies how long the order remains active: \n* DAY: The order will automatically expire if not executed by midnight in the time zone of the instrument's exchange.\n* GOOD_TILL_CANCEL: The order remains active indefinitely until it is either filled or explicitly cancelled by you.",
+    "enum": [
+      "DAY",
+      "GOOD_TILL_CANCEL"
+    ],
+    "type": "string"
+  },
+  "TradableInstrument": {
+    "properties": {
+      "addedOn": {
+        "description": "On the platform since",
+        "format": "date-time",
+        "type": "string"
+      },
+      "currencyCode": {
+        "description": "ISO 4217",
+        "example": "USD",
+        "maxLength": 3,
+        "minLength": 3,
+        "type": "string"
+      },
+      "extendedHours": {
+        "type": "boolean"
+      },
+      "isin": {
+        "type": "string"
+      },
+      "maxOpenQuantity": {
+        "type": "number"
+      },
+      "name": {
+        "type": "string"
+      },
+      "shortName": {
+        "type": "string"
+      },
+      "ticker": {
+        "description": "Unique identifier",
+        "example": "AAPL_US_EQ",
+        "type": "string"
+      },
+      "type": {
+        "enum": [
+          "CRYPTOCURRENCY",
+          "ETF",
+          "FOREX",
+          "FUTURES",
+          "INDEX",
+          "STOCK",
+          "WARRANT",
+          "CRYPTO",
+          "CVR",
+          "CORPACT"
+        ],
+        "example": "ETF",
+        "type": "string"
+      },
+      "workingScheduleId": {
+        "description": "Get items in the /exchanges endpoint",
+        "format": "int64",
+        "type": "integer"
+      }
+    },
+    "type": "object"
+  },
+  "WorkingSchedule": {
+    "properties": {
+      "id": {
+        "format": "int64",
+        "type": "integer"
+      },
+      "timeEvents": {
+        "items": {
+          "$ref": "#/components/schemas/TimeEvent"
+        },
+        "type": "array"
+      }
+    },
+    "type": "object"
+  }
+}

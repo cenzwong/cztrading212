@@ -1,0 +1,34 @@
+{
+  "nullable_fields": {
+    "PaginatedResponseHistoricalOrder": [
+      "nextPagePath"
+    ],
+    "PaginatedResponseHistoryDividendItem": [
+      "nextPagePath"
+    ],
+    "PaginatedResponseHistoryTransactionItem": [
+      "nextPagePath"
+    ]
+  },
+  "rationale": {
+    "nullable_fields": {
+      "reason": "The pagination documentation explicitly specifies null when no next page exists.",
+      "source": "https://docs.trading212.com/api/section/general-information/key-concepts"
+    }
+  },
+  "security": {
+    "expected": [
+      {
+        "authWithSecretKey": [],
+        "legacyApiKeyHeader": []
+      }
+    ],
+    "normalized": [
+      {
+        "authWithSecretKey": []
+      }
+    ],
+    "reason": "The snapshot combines two Authorization-header schemes in one requirement, but the official authentication guide specifies a Basic key-and-secret pair.",
+    "source": "https://docs.trading212.com/api/section/general-information/key-concepts"
+  }
+}

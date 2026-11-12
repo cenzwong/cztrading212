@@ -1,0 +1,20 @@
+# cztrading212
+
+Python SDK for Trading 212's Public API v0. The core package provides raw,
+validated services, and read-only application workflows. CLI and MCP adapters
+are optional. The API is beta and this package is an early alpha.
+
+- [Architecture](docs/architecture.md)
+- [OpenAPI generation and upstream review](docs/generation.md)
+- [Operation mapping](docs/api-mapping.md)
+- [Caching and privacy](docs/caching.md)
+- [Rate limiting and retries](docs/reliability.md)
+- [Application calculations](docs/application.md)
+- [Order safety](docs/safety.md)
+- [CLI](docs/cli.md)
+- [Read-only MCP](docs/mcp.md)
+- [Release and versioning](docs/release.md)
+- Operation catalog: `src/cztrading212/_generated/operations.json`
+
+Raw calls can submit real orders in the live environment and do not retry,
+cache, deduplicate, or resolve unknown outcomes. MCP has no trading tools.
