@@ -10,6 +10,14 @@ UTF-8; malformed bytes raise an error rather than being replaced in the result.
 Services compose raw and use generated schemas and dataclasses. Async uses the
 same operation metadata, codec, and parser.
 
+The `services` package groups sync and async domain interfaces in `account`,
+`positions`, `orders`, `instruments`, and `history`. Its facade composes these
+interfaces and owns shared read execution, caching, and invalidation; `_common`
+contains response parsing and cache helpers. History pagination remains in
+`pagination`, and guarded order submission remains in `core/safety`. Public
+imports from `cztrading212.services` and existing client entry points remain
+available.
+
 The upstream snapshot has 22 operations, including deprecated pie operations.
 The catalog in `src/cztrading212/_generated/operations.json` maps their official
 operation IDs, methods, paths, schemas, and generated Python methods. The
