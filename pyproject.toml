@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling==1.33.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cztrading212"
+version = "0.1.0a1"
+description = "A Python SDK for the Trading 212 Public API"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["httpx>=0.27,<1"]
+keywords = ["trading212", "api", "sdk"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Repository = "https://github.com/cenzwong/cztrading212"
+Issues = "https://github.com/cenzwong/cztrading212/issues"
+
+[project.optional-dependencies]
+cli = ["typer>=0.16,<0.17", "click>=8.1,<8.2"]
+mcp = ["mcp>=1.30,<2"]
+all = ["typer>=0.16,<0.17", "click>=8.1,<8.2", "mcp>=1.30,<2"]
+
+[project.scripts]
+cz212 = "cztrading212.cli:main"
+cz212-mcp = "cztrading212.mcp:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "ruff>=0.9", "pyright>=1.1.390", "typer>=0.16,<0.17", "click>=8.1,<8.2", "mcp>=1.30,<2", "twine>=7,<8"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cztrading212"]
+exclude = ["**/.env", "**/.env.*", "**/*.sqlite", "**/*.sqlite3", "**/*.sqlite-*", "**/*.sqlite3-*", "**/*.db", "**/*.db-*", "**/*.pem", "**/*.key", "**/__pycache__"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit", "tests/integration"]
+markers = ["integration: opt-in tests against the Trading 212 demo environment", "demo_write: separately gated demo order submission"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+exclude = ["src/cztrading212/_generated"]
+
+[tool.pyright]
+include = ["src/cztrading212"]
+typeCheckingMode = "strict"
+exclude = ["src/cztrading212/_generated"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src/cztrading212", "/README.md", "/CHANGELOG.md", "/AGENTS.md", "/llms.txt",
+  "/pyproject.toml", "/uv.lock", "/openapi", "/scripts", "/docs", "/tests", "/examples", "/LICENSE"
+]
+exclude = ["**/.env", "**/.env.*", "**/*.sqlite", "**/*.sqlite3", "**/*.sqlite-*", "**/*.sqlite3-*", "**/*.db", "**/*.db-*", "**/*.pem", "**/*.key", "**/__pycache__"]

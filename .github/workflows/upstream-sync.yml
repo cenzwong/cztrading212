@@ -1,0 +1,60 @@
+name: Check Trading 212 OpenAPI
+on:
+  schedule:
+    - cron: '23 6 * * 1'
+  workflow_dispatch:
+env:
+  TRADING212_RUN_DEMO_READS: "0"
+  TRADING212_RUN_DEMO_WRITES: "0"
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  compare-and-propose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked --all-extras
+      - name: Download and compare snapshot
+        id: snapshot
+        shell: bash
+        run: |
+          python scripts/sync_upstream.py --write
+          if git diff --quiet -- openapi/upstream.json; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Regenerate when supported
+        id: generate
+        if: steps.snapshot.outputs.changed == 'true'
+        continue-on-error: true
+        run: python scripts/generate.py && python scripts/generate_reference.py
+      - name: Run contract checks
+        id: tests
+        if: steps.snapshot.outputs.changed == 'true' && steps.generate.outcome == 'success'
+        continue-on-error: true
+        run: uv run pytest -q
+      - name: Record regeneration status
+        if: steps.snapshot.outputs.changed == 'true'
+        shell: bash
+        run: |
+          printf '\nGeneration outcome: `%s`\n\nTest outcome: `%s`\n' '${{ steps.generate.outcome }}' '${{ steps.tests.outcome }}' >> openapi/UPSTREAM_CHANGE_REPORT.md
+      - name: Propose changes for human review
+        if: steps.snapshot.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/trading212-upstream
+          commit-message: 'chore: review upstream Trading 212 API changes'
+          title: 'Review upstream Trading 212 API changes'
+          body: |
+            The official OpenAPI snapshot changed. Review `openapi/UPSTREAM_CHANGE_REPORT.md`,
+            the full schema diff, generated output, rate policies, and mutation safety.
+            A failed generation or test step requires manual fixes. Do not merge without review.
+          add-paths: |
+            openapi/upstream.json
+            openapi/normalized.json
+            openapi/UPSTREAM_CHANGE_REPORT.md
+            src/cztrading212/_generated
+            docs/api-reference.md

@@ -1,0 +1,112 @@
+{
+  "cancelOrder": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  },
+  "create": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  },
+  "delete": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  },
+  "dividends": {
+    "cache_ttl_seconds": 300,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "duplicatePie": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  },
+  "exchanges": {
+    "cache_ttl_seconds": 600,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "getAccountSummary": {
+    "cache_ttl_seconds": 15,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "getAll": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "getDetailed": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "getPositions": {
+    "cache_ttl_seconds": 30,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "getReports": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "instruments": {
+    "cache_ttl_seconds": 600,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "orderById": {
+    "cache_ttl_seconds": 10,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "orders": {
+    "cache_ttl_seconds": 10,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "orders_1": {
+    "cache_ttl_seconds": 300,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "placeLimitOrder": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  },
+  "placeMarketOrder": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  },
+  "placeStopOrder": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  },
+  "placeStopOrder_1": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  },
+  "requestReport": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  },
+  "transactions": {
+    "cache_ttl_seconds": 300,
+    "mutation_risk": "read_only",
+    "retry": "safe_read"
+  },
+  "update": {
+    "cache_ttl_seconds": null,
+    "mutation_risk": "write",
+    "retry": "never"
+  }
+}
