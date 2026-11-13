@@ -25,13 +25,13 @@ def _snapshot(
         cash=account.data.cash,
         investments=account.data.investments,
         positions=positions.data,
-        account_source=source(account),
-        positions_source=source(positions),
+        account_source=source(account, operation="getAccountSummary", scope="account summary"),
+        positions_source=source(positions, operation="getPositions", scope="all positions"),
         assembled_at=datetime.now(UTC),
     )
 
 
-def _allocation(snapshot: PortfolioSnapshot) -> PortfolioAllocation:
+def allocation_from_snapshot(snapshot: PortfolioSnapshot) -> PortfolioAllocation:
     values: list[tuple[str, Decimal]] = []
     for index, position in enumerate(snapshot.positions):
         instrument = required(position.instrument, f"positions[{index}].instrument")
@@ -78,11 +78,11 @@ class Portfolio:
         return _snapshot(account, positions)
 
     def allocation(self, *, refresh: bool = False) -> PortfolioAllocation:
-        return _allocation(self.snapshot(refresh=refresh))
+        return allocation_from_snapshot(self.snapshot(refresh=refresh))
 
     def report(self, *, refresh: bool = False) -> PortfolioReport:
         snapshot = self.snapshot(refresh=refresh)
-        return PortfolioReport(snapshot=snapshot, allocation=_allocation(snapshot))
+        return PortfolioReport(snapshot=snapshot, allocation=allocation_from_snapshot(snapshot))
 
 
 class AsyncPortfolio:
@@ -101,8 +101,8 @@ class AsyncPortfolio:
         return _snapshot(account, positions)
 
     async def allocation(self, *, refresh: bool = False) -> PortfolioAllocation:
-        return _allocation(await self.snapshot(refresh=refresh))
+        return allocation_from_snapshot(await self.snapshot(refresh=refresh))
 
     async def report(self, *, refresh: bool = False) -> PortfolioReport:
         snapshot = await self.snapshot(refresh=refresh)
-        return PortfolioReport(snapshot=snapshot, allocation=_allocation(snapshot))
+        return PortfolioReport(snapshot=snapshot, allocation=allocation_from_snapshot(snapshot))

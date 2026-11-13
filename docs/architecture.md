@@ -37,3 +37,10 @@ The standard-library generator uses the checked-in snapshot, explicit normalizat
 overrides, and reviewed operation policies. See [generation and upstream review](generation.md)
 for regeneration, parser limitations, and the scheduled review workflow.
 Do not manually edit generated files.
+
+Application-layer financial and provenance decisions are recorded in
+[ADR 0002](adr/0002-financial-calculation-semantics.md) and
+[ADR 0003](adr/0003-application-data-provenance.md). These include target
+contracts and explicitly identify implementation gaps.
+The design-only requirements for advanced analytics are recorded in
+[ADR 0004](adr/0004-advanced-analytics-foundations.md).

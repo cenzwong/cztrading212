@@ -88,7 +88,10 @@ class History:
         for page in self._services.history.iter_pages(
             "orders_1", limit=limit, max_pages=max_pages, refresh=refresh
         ):
-            result.add(cast(PaginatedResponseHistoricalOrder, page.data), source(page))
+            result.add(
+                cast(PaginatedResponseHistoricalOrder, page.data),
+                source(page, operation="orders_1", scope="history page"),
+            )
         return result.result()
 
     def transactions_csv(
@@ -98,7 +101,10 @@ class History:
         for page in self._services.history.iter_pages(
             "transactions", limit=limit, max_pages=max_pages, refresh=refresh
         ):
-            result.add(cast(PaginatedResponseHistoryTransactionItem, page.data), source(page))
+            result.add(
+                cast(PaginatedResponseHistoryTransactionItem, page.data),
+                source(page, operation="transactions", scope="history page"),
+            )
         return result.result()
 
 
@@ -113,7 +119,10 @@ class AsyncHistory:
         async for page in self._services.history.iter_pages(
             "orders_1", limit=limit, max_pages=max_pages, refresh=refresh
         ):
-            result.add(cast(PaginatedResponseHistoricalOrder, page.data), source(page))
+            result.add(
+                cast(PaginatedResponseHistoricalOrder, page.data),
+                source(page, operation="orders_1", scope="history page"),
+            )
         return result.result()
 
     async def transactions_csv(
@@ -123,5 +132,8 @@ class AsyncHistory:
         async for page in self._services.history.iter_pages(
             "transactions", limit=limit, max_pages=max_pages, refresh=refresh
         ):
-            result.add(cast(PaginatedResponseHistoryTransactionItem, page.data), source(page))
+            result.add(
+                cast(PaginatedResponseHistoryTransactionItem, page.data),
+                source(page, operation="transactions", scope="history page"),
+            )
         return result.result()

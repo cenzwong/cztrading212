@@ -25,8 +25,12 @@ def currency(value: str | None, field: str) -> str:
     return result
 
 
-def source(result: ServiceResult[T]) -> SourceInfo:
-    return SourceInfo(fetched_at=result.fetched_at, from_cache=result.from_cache)
+def source(
+    result: ServiceResult[T], *, operation: str | None = None, scope: str | None = None
+) -> SourceInfo:
+    return SourceInfo(
+        fetched_at=result.fetched_at, from_cache=result.from_cache, operation=operation, scope=scope
+    )
 
 
 def exact_sum(values: list[Decimal]) -> Decimal:
@@ -47,6 +51,7 @@ def exact_sum(values: list[Decimal]) -> Decimal:
 
 
 def fraction(value: Decimal, total: Decimal) -> Decimal | None:
+    exact_sum([value, total])
     if total == 0:
         return None
     with localcontext(Context(prec=34, rounding=ROUND_HALF_EVEN)):

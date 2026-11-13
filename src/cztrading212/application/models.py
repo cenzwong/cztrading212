@@ -13,6 +13,9 @@ from .._generated.models import Cash, Investments, Position
 class SourceInfo:
     fetched_at: datetime
     from_cache: bool
+    operation: str | None = None
+    scope: str | None = None
+    completeness: str = "unknown"
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
