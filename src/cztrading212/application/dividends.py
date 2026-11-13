@@ -9,6 +9,13 @@ from typing import TYPE_CHECKING, cast
 from .._generated.models import PaginatedResponseHistoryDividendItem
 from ..exceptions import DataUnavailableError
 from .common import currency, exact_sum, required, source
+from .dividend_analytics import (
+    DividendAccumulator,
+    DividendGrowthReport,
+    DividendIncomeReport,
+    DividendTickerReport,
+    growth,
+)
 from .models import DividendCurrencyTotal, DividendSummary, SourceInfo
 
 if TYPE_CHECKING:
@@ -65,8 +72,37 @@ class Dividends:
         for page in self._services.history.iter_pages(
             "dividends", limit=limit, max_pages=max_pages, refresh=refresh
         ):
-            accumulator.add(cast(PaginatedResponseHistoryDividendItem, page.data), source(page))
+            accumulator.add(
+                cast(PaginatedResponseHistoryDividendItem, page.data),
+                source(page, operation="dividends", scope="history page"),
+            )
         return accumulator.result()
+
+    def income_report(
+        self, *, limit: int = 50, max_pages: int = 20, refresh: bool = False
+    ) -> DividendIncomeReport:
+        accumulator = DividendAccumulator(limit, max_pages)
+        for page in self._services.history.iter_pages(
+            "dividends", limit=limit, max_pages=max_pages, refresh=refresh
+        ):
+            accumulator.add(
+                cast(PaginatedResponseHistoryDividendItem, page.data),
+                source(page, operation="dividends", scope="history page"),
+            )
+        return accumulator.result()
+
+    def by_ticker(
+        self, *, limit: int = 50, max_pages: int = 20, refresh: bool = False
+    ) -> DividendTickerReport:
+        result = self.income_report(limit=limit, max_pages=max_pages, refresh=refresh)
+        return DividendTickerReport(
+            entries=result.by_ticker, provenance=result.provenance, assembled_at=result.assembled_at
+        )
+
+    def growth(
+        self, *, limit: int = 50, max_pages: int = 20, refresh: bool = False
+    ) -> DividendGrowthReport:
+        return growth(self.income_report(limit=limit, max_pages=max_pages, refresh=refresh))
 
 
 class AsyncDividends:
@@ -85,5 +121,34 @@ class AsyncDividends:
         async for page in self._services.history.iter_pages(
             "dividends", limit=limit, max_pages=max_pages, refresh=refresh
         ):
-            accumulator.add(cast(PaginatedResponseHistoryDividendItem, page.data), source(page))
+            accumulator.add(
+                cast(PaginatedResponseHistoryDividendItem, page.data),
+                source(page, operation="dividends", scope="history page"),
+            )
         return accumulator.result()
+
+    async def income_report(
+        self, *, limit: int = 50, max_pages: int = 20, refresh: bool = False
+    ) -> DividendIncomeReport:
+        accumulator = DividendAccumulator(limit, max_pages)
+        async for page in self._services.history.iter_pages(
+            "dividends", limit=limit, max_pages=max_pages, refresh=refresh
+        ):
+            accumulator.add(
+                cast(PaginatedResponseHistoryDividendItem, page.data),
+                source(page, operation="dividends", scope="history page"),
+            )
+        return accumulator.result()
+
+    async def by_ticker(
+        self, *, limit: int = 50, max_pages: int = 20, refresh: bool = False
+    ) -> DividendTickerReport:
+        result = await self.income_report(limit=limit, max_pages=max_pages, refresh=refresh)
+        return DividendTickerReport(
+            entries=result.by_ticker, provenance=result.provenance, assembled_at=result.assembled_at
+        )
+
+    async def growth(
+        self, *, limit: int = 50, max_pages: int = 20, refresh: bool = False
+    ) -> DividendGrowthReport:
+        return growth(await self.income_report(limit=limit, max_pages=max_pages, refresh=refresh))
